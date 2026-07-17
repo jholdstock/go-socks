@@ -242,13 +242,13 @@ func (p *Proxy) dial(ctx context.Context, dialer *net.Dialer, network, addr stri
 			conn.Close()
 			return nil, err
 		}
-		paddr.Host = net.IP(buf).String()
+		paddr.Host = net.IP(buf[:4]).String()
 	case addressTypeIPv6:
 		if _, err := io.ReadFull(conn, buf[:16]); err != nil {
 			conn.Close()
 			return nil, err
 		}
-		paddr.Host = net.IP(buf).String()
+		paddr.Host = net.IP(buf[:16]).String()
 	case addressTypeDomain:
 		if _, err := io.ReadFull(conn, buf[:1]); err != nil {
 			conn.Close()
