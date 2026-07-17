@@ -7,27 +7,29 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        go: [1.12, 1.13]
-
+        go: ["1.25", "1.26"]
     steps:
+      - name: Check out source
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
       - name: Set up Go
-        uses: actions/setup-go@v1
+        uses: actions/setup-go@7a3fe6cf4cb3a834922a1244abfce67bcef6a0c5 # v6.2.0
         with:
           go-version: ${{ matrix.go }}
+      - name: Build
+        run: go build ./socks/...
+
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    steps:
       - name: Check out source
-        uses: actions/checkout@v1
-      - name: Install Linters
-        run: "curl -sfL https://install.goreleaser.com/github.com/golangci/golangci-lint.sh | sh -s -- -b $(go env GOPATH)/bin v1.19.1"
-      - name: Test
-        env:
-          GO111MODULE: "on"
-        run: >
-          export PATH=${PATH}:$(go env GOPATH)/bin &&
-          (cd socks &&
-          golangci-lint run --disable-all --deadline=10m
-          --enable=gofmt
-          --enable=golint
-          --enable=vet
-          --enable=gosimple
-          --enable=unconvert
-          --enable=ineffassign)
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - name: Set up Go
+        uses: actions/setup-go@7a3fe6cf4cb3a834922a1244abfce67bcef6a0c5 # v6.2.0
+        with:
+          go-version: "1.25"
+      - name: golangci-lint
+        uses: golangci/golangci-lint-action@1e7e51e771db61008b38414a730f564565cf7c20 # v9.2.0
+        with:
+          install-mode: "goinstall"
+          version: 8f3b0c7ed018e57905fbd873c697e0b1ede605a5 # v2.11.4

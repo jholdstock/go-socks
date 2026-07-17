@@ -1,14 +1,14 @@
 // Copyright 2012 Samuel Stauffer. All rights reserved.
-// Copyright (c) 2019 The Decred developers
+// Copyright (c) 2019-2026 The Decred developers
 // Use of this source code is governed by a 3-clause BSD
 // license that can be found in the LICENSE file.
 
 /*
 Current limitations:
 
-	- GSS-API authentication is not supported
-	- only SOCKS version 5 is supported
-	- TCP bind and UDP not yet supported
+  - GSS-API authentication is not supported
+  - only SOCKS version 5 is supported
+  - TCP bind and UDP not yet supported
 
 Example http client over SOCKS5:
 
